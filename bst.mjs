@@ -1,3 +1,7 @@
+import { testInsert, buildTree } from "./treeMethods.mjs";
+import { delDuplicates, mergeSort } from "./arrayClean.mjs";
+import { prettyPrint } from "./prettyPrint.mjs";
+
 const pracArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // const pracArray = [
 //   1, 2, 5, 6, 7, 4, 23, 8, 234, 43, 234, 3422, 987, 2344, 9, 4, 3, 5, 7, 9, 67,
@@ -13,41 +17,13 @@ class Node {
   }
 }
 
-function buildTree(array) {
-  console.log("calling buildTree function");
-  console.log(array);
-
-  if (array.length === 0) {
-    return null;
-  } else {
-    let mid = Math.floor((0 + array.length) / 2);
-    console.log(array);
-    console.log(array.length);
-
-    console.log("mid of tree - value: " + array[mid]);
-
-    let leftArray = array.slice(0, mid);
-    console.log("leftArray");
-    console.log(leftArray);
-
-    let rightArray = array.slice(mid + 1, array.length);
-    console.log("rightArray");
-    console.log(rightArray);
-
-    let node = new Node(array[mid]);
-    node.left = buildTree(leftArray);
-    node.right = buildTree(rightArray);
-
-    console.log(node);
-    console.log(" ");
-
-    return node;
-  }
-}
-
 class Tree {
   constructor(array) {
     this.root = buildTree(array);
+  }
+  insertMethod(value) {
+    console.log("called from class");
+    testInsert(value, this.root);
   }
 }
 
@@ -86,40 +62,11 @@ function insert(value, tree) {
     if (value === tree.data) {
       console.log("duplicate value. Cannot insert");
       return;
-
-      // if (tree === null) {
-      //   console.log("inserting new node");
-      //   return new Node(value);
-      // } else {
-      //   if (value < tree.data) {
-      //     if (tree.left === null) {
-      //       console.log("its null");
-      //       tree.left = new Node(value);
-      //     }
-      //     console.log("new node lower");
-      //     console.log(tree.left.data);
-
-      //     return insert(value, tree.left);
-      //   }
-
-      //   if (value > tree.data) {
-      //     if (tree.right === null) {
-      //       console.log("its null");
-      //       tree.right = new Node(value);
-      //     }
-      //     console.log("new node higher");
-      //     console.log(tree.right.data);
-
-      //     return insert(value, tree.right);
-      //   }
-      //   if (value === tree.data) {
-      //     console.log("duplicate value. Cannot insert");
-      //     return;
     }
   }
 }
-// console.log(testTree.root.data);
 
+//******
 function deleteItem(value) {
   //that insert/delete the given value. You’ll have to deal with several cases for delete, such as when a node has children or not. If you need additional resources, check out these two articles on inserting and deleting, or this video on BST inserting/removing with several visual examples.
 }
@@ -158,69 +105,13 @@ function rebalance() {
   // function that rebalances an unbalanced tree. Tip: You’ll want to use a traversal method to provide a new array to the buildTree function.
 }
 
-function delDuplicates(array) {
-  const uniqueSet = new Set(array);
-  const uniqueArray = Array.from(uniqueSet);
-  return uniqueArray;
-}
-
-function mergeSort(array) {
-  if (array.length < 2) {
-    return array;
-  } else {
-    let mid = Math.floor(array.length / 2);
-
-    const leftArray = array.slice(0, mid);
-    const rightArray = array.slice(mid, array.length);
-
-    const first = mergeSort(leftArray);
-    const second = mergeSort(rightArray);
-
-    let i = 0,
-      j = 0,
-      k = 0;
-    var tempArray = [];
-
-    while (i < first.length || j < second.length) {
-      if (first[i] === undefined) {
-        tempArray[k++] = second[j++];
-      } else if (second[j] === undefined) {
-        tempArray[k++] = first[i++];
-      } else if (first[i] < second[j]) {
-        tempArray[k++] = first[i++];
-      } else {
-        tempArray[k++] = second[j++];
-      }
-    }
-    return tempArray;
-  }
-}
-
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  // console.log("inside prettyprint");
-
-  // console.log(node);
-  if (node === null) {
-    return;
-  }
-
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-
 // get rid of duplicates
 let unDupeArray = delDuplicates(pracArray);
 
 // sort in consecutive order
 let sortedArray = mergeSort(unDupeArray);
 
-// let tree = buildTree(sortedArray);
-
+// create Tree
 let testTree = new Tree(sortedArray);
 
 // console.log(testTree);
@@ -229,11 +120,22 @@ let testTree = new Tree(sortedArray);
 
 // console.log(tree);
 
+// prettyPrint(testTree.root);
+
+// insert(0, testTree.root);
+
+// insert(9999, testTree.root);
+// insert(324, testTree.root);
+
+// prettyPrint(testTree.root);
+
+// testInsert(669);
+
+testTree.insertMethod(667);
+testTree.insertMethod(666);
+testTree.insertMethod(70);
+
 prettyPrint(testTree.root);
 
-insert(0, testTree.root);
-
-insert(9999, testTree.root);
-insert(324, testTree.root);
-
-prettyPrint(testTree.root);
+// exports
+export { Tree, testTree, Node };
