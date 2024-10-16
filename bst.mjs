@@ -1,4 +1,10 @@
-import { testInsert, buildTree } from "./treeMethods.mjs";
+import {
+  insert,
+  deleteItem,
+  buildTree,
+  findValue,
+  levelOrderMethod,
+} from "./treeMethods.mjs";
 import { delDuplicates, mergeSort } from "./arrayClean.mjs";
 import { prettyPrint } from "./prettyPrint.mjs";
 
@@ -23,91 +29,67 @@ class Tree {
   }
   insertMethod(value) {
     console.log("called from class");
-    testInsert(value, this.root);
+    insert(value, this.root);
   }
-}
 
-function insert(value, tree) {
-  console.log(tree);
-  console.log(testTree.root);
-  //that insert/delete the given value. You’ll have to deal with several cases for delete, such as when a node has children or not. If you need additional resources, check out these two articles on inserting and deleting, or this video on BST inserting/removing with several visual examples.
-  console.log("insert function called");
-  console.log("value: " + value + ", tree.data: " + tree.data);
-
-  if (tree === null) {
-    console.log("inserting new node");
-    return new Node(value);
-  } else {
-    if (value < tree.data) {
-      if (tree.left === null) {
-        console.log("its null");
-        tree.left = new Node(value);
-      }
-      console.log("new node lower");
-      console.log(tree.left.data);
-
-      return insert(value, tree.left);
-    }
-
-    if (value > tree.data) {
-      if (tree.right === null) {
-        console.log("its null");
-        tree.right = new Node(value);
-      }
-      console.log("new node higher");
-      console.log(tree.right.data);
-
-      return insert(value, tree.right);
-    }
-    if (value === tree.data) {
-      console.log("duplicate value. Cannot insert");
+  deleteItemMethod(value) {
+    //that insert/delete the given value. You’ll have to deal with several cases for delete, such as when a node has children or not. If you need additional resources, check out these two articles on inserting and deleting, or this video on BST inserting/removing with several visual examples.
+    if (!value) {
+      console.log("Error with deleteItemMethod: No value given");
       return;
+    } else {
+      deleteItem(value, this.root);
     }
   }
-}
 
-//******
-function deleteItem(value) {
-  //that insert/delete the given value. You’ll have to deal with several cases for delete, such as when a node has children or not. If you need additional resources, check out these two articles on inserting and deleting, or this video on BST inserting/removing with several visual examples.
-}
+  find(value) {
+    // function that returns the node with the given value.
+    console.log("Result of find()");
+    return findValue(value, this.root);
+  }
 
-function find(value) {
-  // function that returns the node with the given value.
-}
+  levelOrder(callback) {
+    if (!callback) {
+      console.log(
+        "Error with levelOrder. No callback function given as parameter."
+      );
+      return;
+    } else {
+      levelOrderMethod(callback);
+    }
 
-function levelOrder(callback) {
-  // that accepts a callback function as its parameter. levelOrder should traverse the tree in breadth-first level order and call the callback on each node as it traverses, passing the whole node as an argument, similarly to how Array.prototype.forEach might work for arrays. levelOrder may be implemented using either iteration or recursion (try implementing both!). If no callback function is provided, throw an Error reporting that a callback is required. Tip: You will want to use an array acting as a queue to keep track of all the child nodes that you have yet to traverse and to add new ones to the list (video on level order traversal).
-}
+    // that accepts a callback function as its parameter. levelOrder should traverse the tree in breadth-first level order and call the callback on each node as it traverses, passing the whole node as an argument, similarly to how Array.prototype.forEach might work for arrays. levelOrder may be implemented using either iteration or recursion (try implementing both!). If no callback function is provided, throw an Error reporting that a callback is required. Tip: You will want to use an array acting as a queue to keep track of all the child nodes that you have yet to traverse and to add new ones to the list (video on level order traversal).
+  }
 
-function inOrder(callback) {
-  //  that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
-}
-function preOrder(callback) {
-  //   that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
-}
-function postOrder(callback) {
-  //that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
-}
+  inOrder(callback) {
+    //  that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
+  }
+  preOrder(callback) {
+    //   that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
+  }
+  postOrder(callback) {
+    //that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
+  }
 
-function height(node) {
-  //unction that returns the given node’s height. Height is defined as the number of edges in the longest path from a given node to a leaf node.
-}
+  height(node) {
+    //unction that returns the given node’s height. Height is defined as the number of edges in the longest path from a given node to a leaf node.
+  }
 
-function depth(node) {
-  //function that returns the given node’s depth. Depth is defined as the number of edges in the path from a given node to the tree’s root node.
-}
+  depth(node) {
+    //function that returns the given node’s depth. Depth is defined as the number of edges in the path from a given node to the tree’s root node.
+  }
 
-function isBalanced() {
-  //function that checks if the tree is balanced. A balanced tree is one where the difference between heights of the left subtree and the right subtree of every node is not more than 1.
-}
+  isBalanced() {
+    //function that checks if the tree is balanced. A balanced tree is one where the difference between heights of the left subtree and the right subtree of every node is not more than 1.
+  }
 
-function rebalance() {
-  // function that rebalances an unbalanced tree. Tip: You’ll want to use a traversal method to provide a new array to the buildTree function.
+  rebalance() {
+    // function that rebalances an unbalanced tree. Tip: You’ll want to use a traversal method to provide a new array to the buildTree function.
+  }
 }
 
 // get rid of duplicates
 let unDupeArray = delDuplicates(pracArray);
-
 // sort in consecutive order
 let sortedArray = mergeSort(unDupeArray);
 
@@ -124,18 +106,27 @@ let testTree = new Tree(sortedArray);
 
 // insert(0, testTree.root);
 
-// insert(9999, testTree.root);
 // insert(324, testTree.root);
 
 // prettyPrint(testTree.root);
 
 // testInsert(669);
 
+console.log("****calling insertMethod*****");
 testTree.insertMethod(667);
+console.log("****calling insertMethod*****");
 testTree.insertMethod(666);
-testTree.insertMethod(70);
+// testTree.insertMethod(70);
+testTree.insertMethod(6);
+
+// testTree.deleteItemMethod(1);
+prettyPrint(testTree.root);
+
+testTree.deleteItemMethod(67);
 
 prettyPrint(testTree.root);
+
+console.log(testTree.find(9));
 
 // exports
 export { Tree, testTree, Node };
