@@ -109,7 +109,6 @@ function deleteItem(value, tree) {
 function findValue(value, tree) {
   if (tree.data === value) {
     // console.log(tree);
-
     return tree;
   }
   if (value < tree.data) {
@@ -123,6 +122,139 @@ function findValue(value, tree) {
   return tree;
 }
 
-function levelOrderMethod(callback) {}
+function levelOrderMethod(callback, tree, levelOrderQueueArray) {
+  console.log("****levelOrderMethod");
+  console.log(levelOrderQueueArray);
 
-export { insert, deleteItem, buildTree, findValue, levelOrderMethod };
+  const callbackResultArray = [];
+  let breadthCounter = 0;
+
+  while (levelOrderQueueArray.length !== 0) {
+    console.log("while loop triggered");
+
+    // while (levelOrderQueueArray[0] !== null) {
+    console.log("processing arrays");
+
+    if (levelOrderQueueArray[0] === null) {
+      console.log("****DIS THE LAST ERROR ONE");
+      console.log(levelOrderQueueArray[0]);
+      return;
+    }
+    if (levelOrderQueueArray[0].left) {
+      console.log("left");
+
+      levelOrderQueueArray.push(levelOrderQueueArray[0].left);
+      p++;
+    }
+    if (levelOrderQueueArray[0].right) {
+      console.log("right");
+
+      levelOrderQueueArray.push(levelOrderQueueArray[0].right);
+      p++;
+    }
+
+    levelOrderCallback(levelOrderQueueArray[0]);
+    callbackResultArray.push(levelOrderQueueArray[0].data);
+    console.log(callbackResultArray);
+
+    levelOrderQueueArray.shift();
+
+    if (levelOrderQueueArray[0] === null) {
+      levelOrderQueueArray.shift();
+      levelOrderQueueArray.push(null);
+      breadthCounter++;
+    }
+    console.log(levelOrderQueueArray);
+
+    console.log("breadthCounter " + breadthCounter);
+  }
+}
+console.log("end processing loop");
+// }
+// }
+
+// const queueArray = [];
+
+// if (tree === null) {
+//   console.log(tree);
+
+//   return null;
+// } else {
+// while (levelOrderQueueArray[0] !== null) {
+
+// console.log(levelOrderQueueArray);
+//   console.log(levelOrderQueueArray);
+//   n++;
+
+//   console.log("n: " + n + " + p: " + p);
+//   console.log(levelOrderQueueArray[n]);
+
+//   console.log(levelOrderQueueArray);
+
+//   console.log("callback Result Array");
+//   console.log(callbackResultArray);
+// } while (levelOrderQueueArray[1] !== null);
+
+// // levelOrderQueueArray.push(null);
+
+// console.log("the array has hit a null array[1]");
+
+// console.log(levelOrderQueueArray);
+// callback(levelOrderQueueArray[0]);
+// levelOrderQueueArray.shift();
+
+// levelOrderQueueArray.push(null); // end of level, so add null to queue
+// console.log(levelOrderQueueArray);
+// console.log("finished callback");
+
+// console.log("array is empty");
+
+// levelOrderQueueArray.shift();
+// console.log(levelOrderQueueArray);
+
+// breadthCounter++;
+
+// }
+
+// return tree;
+
+//Write a levelOrder(callback) function that accepts a callback function as its parameter.
+//levelOrder should traverse the tree in breadth-first level order and call the callback on each node as it traverses,
+// passing the whole node as an argument, similarly to how Array.prototype.forEach might work for arrays.
+//levelOrder may be implemented using either iteration or recursion (try implementing both!).
+//If no callback function is provided, throw an Error reporting that a callback is required.
+//Tip: You will want to use an array acting as a queue to keep track of all the child nodes
+//that you have yet to traverse and to add new ones to the list (video on level order traversal).
+
+// console.log(tree.data);
+// levelOrderQueueArray.push(tree.data);
+// console.log(levelOrderQueueArray);
+// if (tree.left) {
+//   levelOrderQueueArray.push(tree.left.data);
+// }
+// if (tree.right) {
+//   levelOrderQueueArray.push(tree.right.data);
+// }
+// callback(tree);
+// console.log("150 -levelOrderQueueArray");
+// console.log(levelOrderQueueArray);
+// }
+
+// tree.left = levelOrderMethod(callback, tree.left, levelOrderQueueArray);
+// tree.right = levelOrderMethod(callback, tree.right, levelOrderQueueArray);
+
+function levelOrderCallback(node) {
+  console.log(
+    "calling levelOrder callback. Callback is logging value: ",
+    +node.data
+  );
+}
+
+export {
+  insert,
+  deleteItem,
+  buildTree,
+  findValue,
+  levelOrderMethod,
+  levelOrderCallback,
+};

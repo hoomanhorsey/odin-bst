@@ -1,0 +1,38 @@
+add head node to array[0]
+add null to array array[1]
+
+// array = [node, null]
+
+
+while (array.length !== 0)  // whille array is not empty, the do following loop
+{
+
+if array[0] === null, array.shift. // if the first item in array is null, then it's the end of the level
+levelCounter++  // add 1 to increase depth measurement
+
+do: 
+- add array[0].nodeleft to queueArray // what happens if null?
+- add array[0].noderight to queueArray
+
+  // [node, null, node.left[1], node.right[1]]
+
+while (array[1] !== null).
+
+array.push(null)
+
+callback(array[0]) // process first item in array queue in callback
+
+array.shift()   // gets rid of first item in array queue
+
+// go back to start
+}
+
+
+check if array[1] === null, 
+  - then process node via callback
+  - shift array
+
+
+
+if array[n+1] equals null, then add null.
+

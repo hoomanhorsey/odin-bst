@@ -4,6 +4,7 @@ import {
   buildTree,
   findValue,
   levelOrderMethod,
+  levelOrderCallback,
 } from "./treeMethods.mjs";
 import { delDuplicates, mergeSort } from "./arrayClean.mjs";
 import { prettyPrint } from "./prettyPrint.mjs";
@@ -26,6 +27,7 @@ class Node {
 class Tree {
   constructor(array) {
     this.root = buildTree(array);
+    this.levelOrderQueueArray = [];
   }
   insertMethod(value) {
     console.log("called from class");
@@ -55,7 +57,11 @@ class Tree {
       );
       return;
     } else {
-      levelOrderMethod(callback);
+      console.log("*****<<<CALLING LEVELORDER METHOD FIRST TIME>>>>>******");
+
+      this.levelOrderQueueArray.push(this.root, null);
+
+      levelOrderMethod(callback, this.root, this.levelOrderQueueArray);
     }
 
     // that accepts a callback function as its parameter. levelOrder should traverse the tree in breadth-first level order and call the callback on each node as it traverses, passing the whole node as an argument, similarly to how Array.prototype.forEach might work for arrays. levelOrder may be implemented using either iteration or recursion (try implementing both!). If no callback function is provided, throw an Error reporting that a callback is required. Tip: You will want to use an array acting as a queue to keep track of all the child nodes that you have yet to traverse and to add new ones to the list (video on level order traversal).
@@ -127,6 +133,12 @@ testTree.deleteItemMethod(67);
 prettyPrint(testTree.root);
 
 console.log(testTree.find(9));
+
+testTree.levelOrder(levelOrderCallback);
+
+function callback(node) {
+  console.log(node.data);
+}
 
 // exports
 export { Tree, testTree, Node };
