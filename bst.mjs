@@ -30,7 +30,10 @@ class Tree {
     this.levelOrderQueueArray = [];
   }
   insertMethod(value) {
-    console.log("called from class");
+    console.log(
+      "****Insert Method function called from class. Insering value of: " +
+        value
+    );
     insert(value, this.root);
   }
 
@@ -40,13 +43,20 @@ class Tree {
       console.log("Error with deleteItemMethod: No value given");
       return;
     } else {
+      console.log(
+        "****Delete Method function called from class. Deleting value of: " +
+          value
+      );
+
       deleteItem(value, this.root);
     }
   }
 
   find(value) {
     // function that returns the node with the given value.
-    console.log("Result of find()");
+    console.log(
+      "****Find Method function called from class. Finding value of: " + value
+    );
     return findValue(value, this.root);
   }
 
@@ -57,11 +67,10 @@ class Tree {
       );
       return;
     } else {
-      console.log("*****<<<CALLING LEVELORDER METHOD FIRST TIME>>>>>******");
-
+      console.log("****LevelOrder method called from Class****");
+      // Placing head node into array
       this.levelOrderQueueArray.push(this.root, null);
-
-      levelOrderMethod(callback, this.root, this.levelOrderQueueArray);
+      levelOrderMethod(callback, this.levelOrderQueueArray);
     }
 
     // that accepts a callback function as its parameter. levelOrder should traverse the tree in breadth-first level order and call the callback on each node as it traverses, passing the whole node as an argument, similarly to how Array.prototype.forEach might work for arrays. levelOrder may be implemented using either iteration or recursion (try implementing both!). If no callback function is provided, throw an Error reporting that a callback is required. Tip: You will want to use an array acting as a queue to keep track of all the child nodes that you have yet to traverse and to add new ones to the list (video on level order traversal).
@@ -102,43 +111,17 @@ let sortedArray = mergeSort(unDupeArray);
 // create Tree
 let testTree = new Tree(sortedArray);
 
-// console.log(testTree);
-
-// console.log("tree");
-
-// console.log(tree);
-
-// prettyPrint(testTree.root);
-
-// insert(0, testTree.root);
-
-// insert(324, testTree.root);
-
-// prettyPrint(testTree.root);
-
-// testInsert(669);
-
-console.log("****calling insertMethod*****");
 testTree.insertMethod(667);
-console.log("****calling insertMethod*****");
 testTree.insertMethod(666);
-// testTree.insertMethod(70);
 testTree.insertMethod(6);
-
-// testTree.deleteItemMethod(1);
 prettyPrint(testTree.root);
 
 testTree.deleteItemMethod(67);
-
 prettyPrint(testTree.root);
 
 console.log(testTree.find(9));
 
 testTree.levelOrder(levelOrderCallback);
-
-function callback(node) {
-  console.log(node.data);
-}
 
 // exports
 export { Tree, testTree, Node };
