@@ -189,19 +189,22 @@ function preOrderCallback(tree, preOrderArray) {
 }
 
 function postOrderMethod(callback, tree, postOrderArray) {
-  console.log("!!!Starting preorder Method call again!!!");
+  console.log("!!!Starting postOrder Method call again!!!");
 
   if (!postOrderArray) {
     postOrderArray = [];
   }
 
-  if (tree.left) {
-    console.log("tree.left exists");
+  if (tree === null) {
+    return;
+  }
+
+  if (tree.left !== null) {
+    console.log("tree.left exists: value = " + tree.left.data);
     postOrderMethod(postOrderCallback, tree.left, postOrderArray);
   }
-  if (tree.right) {
+  if (tree.right !== null) {
     console.log("tree.right exists");
-
     postOrderMethod(postOrderCallback, tree.right, postOrderArray);
   }
   console.log("calling postOrderCallback on head/mid node");
@@ -212,9 +215,44 @@ function postOrderMethod(callback, tree, postOrderArray) {
 
 function postOrderCallback(tree, postOrderArray) {
   console.log(
-    "This is the preOrder callback and the value of the node is: " + tree.data
+    "This is the postOrder callback and the value of the node is: " + tree.data
   );
   postOrderArray.push(tree.data);
+  console.log(postOrderArray);
+}
+
+function heightMethod(node, counter, highestCount) {
+  // console.log("yolo height: " + node.data);
+
+  if (!counter) {
+    counter = 0;
+  }
+  if (!highestCount) {
+    highestCount = 0;
+  }
+
+  if (node === null) {
+    console.log("**NULL**");
+
+    if (counter > highestCount) {
+      highestCount = counter;
+      console.log("counter: " + counter + ", highestCount: " + highestCount);
+    }
+    return highestCount;
+  }
+
+  if (node) {
+    console.log(node);
+
+    counter++;
+    heightMethod(node.left, counter, highestCount);
+  }
+
+  if (node) {
+    heightMethod(node.right, counter, highestCount);
+  }
+  return highestCount;
+  console.log("counter: " + counter + ", highestCount: " + highestCount);
 }
 
 export {
@@ -230,4 +268,5 @@ export {
   preOrderCallback,
   postOrderMethod,
   postOrderCallback,
+  heightMethod,
 };

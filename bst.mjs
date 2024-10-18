@@ -11,6 +11,7 @@ import {
   preOrderCallback,
   postOrderMethod,
   postOrderCallback,
+  heightMethod,
 } from "./treeMethods.mjs";
 import { delDuplicates, mergeSort } from "./arrayClean.mjs";
 import { prettyPrint } from "./prettyPrint.mjs";
@@ -19,12 +20,12 @@ import { prettyPrint } from "./prettyPrint.mjs";
 
 // const pracArray = [4, 12, 10, 18, 24, 22, 15, 31, 44, 35, 66, 90, 70, 50, 25];
 
-const pracArray = [1, 2, 3, 4, 5, 6];
-// const pracArray = [
-//   1, 2, 5, 6, 7, 4, 23, 8, 234, 43, 234, 3422, 987, 2344, 9, 4, 3, 5, 7, 9, 67,
-//   345, 3453, 223, 678, 4353, 657, 768768, 234, 34, 3456, 56, 56756, 23, 2,
-//   3453535, 5464, 6345, 324,
-// ];
+// const pracArray = [1, 2, 3, 4, 5, 6];
+const pracArray = [
+  1, 2, 5, 6, 7, 4, 23, 8, 234, 43, 234, 3422, 987, 2344, 9, 4, 3, 5, 7, 9, 67,
+  345, 3453, 223, 678, 4353, 657, 768768, 234, 34, 3456, 56, 56756, 23, 2,
+  3453535, 5464, 6345, 324,
+];
 
 class Node {
   constructor(data, left = null, right = null) {
@@ -115,9 +116,23 @@ class Tree {
   }
   postOrder(callback) {
     //that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
+    //   that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
+    if (!callback) {
+      console.log(
+        "Error with postOrder. No callback function given as parameter."
+      );
+      return;
+      //  that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
+    } else {
+      console.log("****postOrder method called from Class****");
+
+      return postOrderMethod(callback, this.root);
+    }
   }
 
-  height(node) {
+  height(value) {
+    let node = this.find(value);
+    heightMethod(node);
     //unction that returns the given node’s height. Height is defined as the number of edges in the longest path from a given node to a leaf node.
   }
 
@@ -156,8 +171,11 @@ testTree.levelOrder(levelOrderCallback);
 
 // console.log(testTree.inOrder(inOrderCallback));
 // console.log(testTree.preOrder(preOrderCallback));
+prettyPrint(testTree.root);
 
 console.log(testTree.postOrder(postOrderCallback));
+
+testTree.height(8);
 
 // exports
 export { Tree, testTree, Node };
