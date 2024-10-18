@@ -115,6 +115,108 @@ function levelOrderCallback(node) {
   );
 }
 
+function inOrderMethod(callback, tree, inOrderArray) {
+  console.log("!!!Starting inorder Method call again!!!");
+
+  if (!inOrderArray) {
+    inOrderArray = [];
+  }
+  //  that also accept a callback as a parameter.
+  //Each of these functions should traverse the tree in their respective depth-first order and
+  //pass each node to the provided callback. The functions should throw an Error if no callback
+  //is given as an argument, like with levelOrder.
+
+  if (tree === null) {
+    console.log("tree be null");
+    return;
+  }
+
+  if (tree.left) {
+    console.log("tree.left exists");
+    // inOrderCallback(tree.left, inOrderArray);
+    inOrderMethod(inOrderCallback, tree.left, inOrderArray);
+  }
+
+  console.log("calling inorderCallback on head/mid node");
+  callback(tree, inOrderArray);
+
+  if (tree.right) {
+    console.log("tree.right exists");
+
+    // inOrderCallback(tree.right, inOrderArray);
+    inOrderMethod(inOrderCallback, tree.right, inOrderArray);
+  }
+
+  return inOrderArray;
+}
+
+function inOrderCallback(tree, inOrderArray) {
+  console.log(
+    "This is the inorder callback and the value of the node is: " + tree.data
+  );
+  inOrderArray.push(tree.data);
+}
+
+function preOrderMethod(callback, tree, preOrderArray) {
+  console.log("!!!Starting preorder Method call again!!!");
+
+  if (!preOrderArray) {
+    preOrderArray = [];
+  }
+
+  console.log("calling preOrderCallback on head/mid node");
+  callback(tree, preOrderArray);
+
+  if (tree.left) {
+    console.log("tree.left exists");
+    preOrderMethod(preOrderCallback, tree.left, preOrderArray);
+  }
+
+  if (tree.right) {
+    console.log("tree.right exists");
+
+    preOrderMethod(preOrderCallback, tree.right, preOrderArray);
+  }
+
+  return preOrderArray;
+}
+
+function preOrderCallback(tree, preOrderArray) {
+  console.log(
+    "This is the preOrder callback and the value of the node is: " + tree.data
+  );
+  preOrderArray.push(tree.data);
+}
+
+function postOrderMethod(callback, tree, postOrderArray) {
+  console.log("!!!Starting preorder Method call again!!!");
+
+  if (!postOrderArray) {
+    postOrderArray = [];
+  }
+
+  if (tree.left) {
+    console.log("tree.left exists");
+    postOrderMethod(postOrderCallback, tree.left, postOrderArray);
+  }
+  if (tree.right) {
+    console.log("tree.right exists");
+
+    postOrderMethod(postOrderCallback, tree.right, postOrderArray);
+  }
+  console.log("calling postOrderCallback on head/mid node");
+  callback(tree, postOrderArray);
+
+  return postOrderArray;
+}
+
+function postOrderCallback(tree, postOrderArray) {
+  console.log(
+    "This is the preOrder callback and the value of the node is: " + tree.data
+  );
+  postOrderArray.push(tree.data);
+}
+
 export {
   insert,
   deleteItem,
@@ -122,4 +224,10 @@ export {
   findValue,
   levelOrderMethod,
   levelOrderCallback,
+  inOrderMethod,
+  inOrderCallback,
+  preOrderMethod,
+  preOrderCallback,
+  postOrderMethod,
+  postOrderCallback,
 };
