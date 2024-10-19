@@ -189,8 +189,6 @@ function preOrderCallback(tree, preOrderArray) {
 }
 
 function postOrderMethod(callback, tree, postOrderArray) {
-  console.log("!!!Starting postOrder Method call again!!!");
-
   if (!postOrderArray) {
     postOrderArray = [];
   }
@@ -200,59 +198,83 @@ function postOrderMethod(callback, tree, postOrderArray) {
   }
 
   if (tree.left !== null) {
-    console.log("tree.left exists: value = " + tree.left.data);
+    // console.log("tree.left exists: value = " + tree.left.data);
     postOrderMethod(postOrderCallback, tree.left, postOrderArray);
   }
   if (tree.right !== null) {
-    console.log("tree.right exists");
+    // console.log("tree.right exists");
     postOrderMethod(postOrderCallback, tree.right, postOrderArray);
   }
-  console.log("calling postOrderCallback on head/mid node");
   callback(tree, postOrderArray);
 
   return postOrderArray;
 }
 
 function postOrderCallback(tree, postOrderArray) {
-  console.log(
-    "This is the postOrder callback and the value of the node is: " + tree.data
-  );
+  // console.log(
+  //   "This is the postOrder callback and the value of the node is: " + tree.data
+  // );
   postOrderArray.push(tree.data);
-  console.log(postOrderArray);
+  // console.log(postOrderArray);
 }
 
-function heightMethod(node, counter, highestCount) {
-  // console.log("yolo height: " + node.data);
+function heightMethod(node) {
+  if (node === null) {
+    console.log("hit null");
+
+    return -1;
+  }
+  console.log("Calling left - node.data" + node.data);
+  const leftHeight = heightMethod(node.left);
+  console.log("Calling right - node.data" + node.data);
+  const rightHeight = heightMethod(node.right);
+
+  console.log("leftHeight: " + leftHeight + ", rightHeight" + rightHeight);
+
+  let max = Math.max(leftHeight, rightHeight);
+  console.log(max);
+  return Math.max(leftHeight, rightHeight) + 1;
+}
+
+function heightMetho(node, counter) {
+  console.log("--height method called. Counter: " + counter);
 
   if (!counter) {
     counter = 0;
   }
-  if (!highestCount) {
-    highestCount = 0;
-  }
+  // if (!highestCount) {
+  //   highestCount = 0;
+  // }
 
   if (node === null) {
     console.log("**NULL**");
+    --counter;
 
-    if (counter > highestCount) {
-      highestCount = counter;
-      console.log("counter: " + counter + ", highestCount: " + highestCount);
-    }
-    return highestCount;
+    // if (counter > highestCount) {
+    //   highestCount = counter;
+    // }
+    // counter = 0;
+    console.log("counter: " + counter);
+
+    return counter;
   }
-
-  if (node) {
-    console.log(node);
-
+  if (node.left || node.left === null) {
+    console.log(
+      "node.left called. Node.data: " + node.data + ", counter: " + counter
+    );
     counter++;
-    heightMethod(node.left, counter, highestCount);
+    counter = heightMethod(node.left, counter);
   }
 
-  if (node) {
-    heightMethod(node.right, counter, highestCount);
+  if (node.right || node.right === null) {
+    console.log(
+      "node.right called. Node.data: " + node.data + ", counter: " + counter
+    );
+    counter++;
+    counter = heightMethod(node.right, counter);
   }
-  return highestCount;
-  console.log("counter: " + counter + ", highestCount: " + highestCount);
+  counter--;
+  return counter;
 }
 
 export {
