@@ -36,3 +36,25 @@ check if array[1] === null,
 
 if array[n+1] equals null, then add null.
 
+
+
+
+
+
+
+
+
+
+
+
+
+// iterate across queue array?
+      // enqueue tree.left + tree.right of [8], [8, 4, 324]
+      // process tree.head. [8,... 4, 324]
+      // proceed to tree.left [4], [4, 324]
+      // enqueue tree.left + tree.left [8....4, 324, 3, 7]
+      // process [4], [8, 4,......324, 3, 7]
+      // enquue tree.left + tree.right of [324] [ 8, 4,.....324, 3, 7, 23, 6345]
+      // process [324], [8, 4, 324, ....3, 7, 23, 6345]
+      // enquue tree.left + tree.right of [3], [3, 7, 23, 6345, 1] note: tree.right is null
+      // console.log(tree.left);

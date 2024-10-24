@@ -12,20 +12,11 @@ import {
   postOrderMethod,
   postOrderCallback,
   heightMethod,
+  depthMethod,
+  isBalancedMethod,
 } from "./treeMethods.mjs";
 import { delDuplicates, mergeSort } from "./arrayClean.mjs";
 import { prettyPrint } from "./prettyPrint.mjs";
-
-const pracArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-
-// const pracArray = [4, 12, 10, 18, 24, 22, 15, 31, 44, 35, 66, 90, 70, 50, 25];
-
-// const pracArray = [1, 2, 3, 4, 5, 6];
-// const pracArray = [
-//   1, 2, 5, 6, 7, 4, 23, 8, 234, 43, 234, 3422, 987, 2344, 9, 4, 3, 5, 7, 9, 67,
-//   345, 3453, 223, 678, 4353, 657, 768768, 234, 34, 3456, 56, 56756, 23, 2,
-//   3453535, 5464, 6345, 324,
-// ];
 
 class Node {
   constructor(data, left = null, right = null) {
@@ -58,7 +49,6 @@ class Tree {
         "****Delete Method function called from class. Deleting value of: " +
           value
       );
-
       deleteItem(value, this.root);
     }
   }
@@ -72,6 +62,14 @@ class Tree {
   }
 
   levelOrder(callback) {
+    // that accepts a callback function as its parameter.
+    //levelOrder should traverse the tree in breadth-first level order and
+    //call the callback on each node as it traverses, passing the whole node
+    //as an argument, similarly to how Array.prototype.forEach might work for
+    //arrays. levelOrder may be implemented using either iteration or recursion
+    //(try implementing both!). If no callback function is provided,
+    //throw an Error reporting that a callback is required.
+    // Tip: You will want to use an array acting as a queue to keep track of all the child nodes that you have yet to traverse and to add new ones to the list (video on level order traversal).
     if (!callback) {
       console.log(
         "Error with levelOrder. No callback function given as parameter."
@@ -80,11 +78,10 @@ class Tree {
     } else {
       console.log("****LevelOrder method called from Class****");
       // Placing head node into array
+      console.log("Level Order");
       this.levelOrderQueueArray.push(this.root, null);
-      levelOrderMethod(callback, this.levelOrderQueueArray);
+      return levelOrderMethod(callback, this.levelOrderQueueArray);
     }
-
-    // that accepts a callback function as its parameter. levelOrder should traverse the tree in breadth-first level order and call the callback on each node as it traverses, passing the whole node as an argument, similarly to how Array.prototype.forEach might work for arrays. levelOrder may be implemented using either iteration or recursion (try implementing both!). If no callback function is provided, throw an Error reporting that a callback is required. Tip: You will want to use an array acting as a queue to keep track of all the child nodes that you have yet to traverse and to add new ones to the list (video on level order traversal).
   }
 
   inOrder(callback) {
@@ -96,6 +93,7 @@ class Tree {
       //  that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
     } else {
       console.log("****inOrder method called from Class****");
+      console.log("inOrder");
 
       return inOrderMethod(callback, this.root);
     }
@@ -110,7 +108,7 @@ class Tree {
       //  that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
     } else {
       console.log("****preOrder method called from Class****");
-
+      console.log("preOrder");
       return preOrderMethod(callback, this.root);
     }
   }
@@ -125,7 +123,7 @@ class Tree {
       //  that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each node to the provided callback. The functions should throw an Error if no callback is given as an argument, like with levelOrder.
     } else {
       console.log("****postOrder method called from Class****");
-
+      console.log("postOrder");
       return postOrderMethod(callback, this.root);
     }
   }
@@ -139,47 +137,102 @@ class Tree {
   }
 
   depth(node) {
+    console.log("****depth method called from Class****");
+
+    return depthMethod(node, this.root);
     //function that returns the given node’s depth. Depth is defined as the number of edges in the path from a given node to the tree’s root node.
   }
 
   isBalanced() {
-    //function that checks if the tree is balanced. A balanced tree is one where the difference between heights of the left subtree and the right subtree of every node is not more than 1.
+    //function that checks if the tree is balanced.
+    //A balanced tree is one where the difference between heights of the left subtree and the right subtree of every node is not more than 1.
+
+    console.log("****isBalanced Method function called from class. ");
+
+    if (!isBalancedMethod(this.root)) {
+      return "The tree is unbalanced";
+    } else {
+      return "The tree is balanced";
+    }
   }
 
   rebalance() {
+    console.log("****rebalance method called from Class****");
+
+    let rebuiltArray = testTree.inOrder(inOrderCallback);
+    const newerTree = new Tree(rebuiltArray);
+    return newerTree;
+
     // function that rebalances an unbalanced tree. Tip: You’ll want to use a traversal method to provide a new array to the buildTree function.
   }
 }
 
+// Driver Script
+
+// **** ARRAY PREPARATION*****
+//Declare random array
+const testArray = [];
+for (let i = 0; i < 200; i++) {
+  testArray.push(Math.floor(Math.random() * 100));
+}
 // get rid of duplicates
-let unDupeArray = delDuplicates(pracArray);
+let unDupeArray = delDuplicates(testArray);
 // sort in consecutive order
 let sortedArray = mergeSort(unDupeArray);
+// log to console to check
+console.log("Length of Array: " + sortedArray.length);
+console.log("Sorted Array");
+console.log(sortedArray);
 
-// create Tree
-let testTree = new Tree(sortedArray);
-
-// testTree.insertMethod(667);
-// testTree.insertMethod(666);
-// testTree.insertMethod(6);
-// prettyPrint(testTree.root);
-
-testTree.deleteItemMethod(67);
-// prettyPrint(testTree.root);
-
-// console.log(testTree.find(9));
-
-testTree.levelOrder(levelOrderCallback);
-
-// console.log(testTree.inOrder(inOrderCallback));
-// console.log(testTree.preOrder(preOrderCallback));
+// declare new tree + pretty print
+const testTree = new Tree(sortedArray);
 prettyPrint(testTree.root);
+// check balance
+console.log(testTree.isBalanced());
 
+// printing out elements in order:
+// Level Order
+console.log(testTree.levelOrder(levelOrderCallback));
+
+// Preoder
+console.log(testTree.preOrder(preOrderCallback));
+
+// Postorder
 console.log(testTree.postOrder(postOrderCallback));
 
-console.log("Height =  " + testTree.height(8));
+// Inorder
+console.log(testTree.inOrder(postOrderCallback));
 
+//insert new items to unbalance tree, print tree, test for balance
+testTree.insertMethod(667);
+testTree.insertMethod(666);
+testTree.insertMethod(665);
+testTree.insertMethod(669);
+testTree.insertMethod(663);
 prettyPrint(testTree.root);
+console.log("isBalanced() called on testTree");
+
+console.log(testTree.isBalanced());
+
+// rebalance tree
+
+const newerTree = testTree.rebalance();
+prettyPrint(newerTree.root);
+
+console.log(newerTree.isBalanced());
+
+// printing out elements in order:
+// Level Order
+console.log(newerTree.levelOrder(levelOrderCallback));
+
+// Preoder
+console.log(newerTree.preOrder(preOrderCallback));
+
+// Postorder
+console.log(newerTree.postOrder(postOrderCallback));
+
+// Inorder
+console.log(newerTree.inOrder(postOrderCallback));
 
 // exports
 export { Tree, testTree, Node };

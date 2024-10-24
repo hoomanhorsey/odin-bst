@@ -63,16 +63,16 @@ function deleteItem(value, tree) {
   }
 }
 
-function findValue(value, tree) {
-  if (tree.data === value) {
-    return tree;
+function findValue(value, node) {
+  if (node.data === value) {
+    return node;
   }
-  if (value < tree.data) {
-    tree = findValue(value, tree.left);
+  if (value < node.data) {
+    node = findValue(value, node.left);
   } else if (value > tree.data) {
-    tree = findValue(value, tree.right);
+    node = findValue(value, node.right);
   }
-  return tree;
+  return node;
 }
 
 function levelOrderMethod(callback, levelOrderQueueArray) {
@@ -81,12 +81,11 @@ function levelOrderMethod(callback, levelOrderQueueArray) {
 
   while (levelOrderQueueArray.length !== 0) {
     if (levelOrderQueueArray[0] === null) {
-      console.log("****DIS THE LAST ERROR ONE");
-      console.log(levelOrderQueueArray[0]);
-
-      console.log(callbackResultArray);
-      console.log("breadthCounter " + breadthCounter);
-      return;
+      // console.log("****DIS THE LAST ERROR ONE");
+      // console.log(levelOrderQueueArray[0]);
+      // console.log(callbackResultArray);
+      // console.log("breadthCounter " + breadthCounter);
+      return callbackResultArray;
     }
     if (levelOrderQueueArray[0].left) {
       levelOrderQueueArray.push(levelOrderQueueArray[0].left);
@@ -95,8 +94,7 @@ function levelOrderMethod(callback, levelOrderQueueArray) {
       levelOrderQueueArray.push(levelOrderQueueArray[0].right);
     }
 
-    callback(levelOrderQueueArray[0]);
-    callbackResultArray.push(levelOrderQueueArray[0].data);
+    callback(levelOrderQueueArray[0], callbackResultArray);
 
     levelOrderQueueArray.shift();
 
@@ -108,73 +106,70 @@ function levelOrderMethod(callback, levelOrderQueueArray) {
   }
 }
 
-function levelOrderCallback(node) {
-  console.log(
-    "calling levelOrder callback. Callback is logging value: ",
-    +node.data
-  );
+function levelOrderCallback(node, callbackResultArray) {
+  callbackResultArray.push(node.data);
+
+  // console.log(
+  //   "calling levelOrder callback. Callback is logging value: ",
+  //   +node.data
+  // );
 }
 
 function inOrderMethod(callback, tree, inOrderArray) {
-  console.log("!!!Starting inorder Method call again!!!");
-
-  if (!inOrderArray) {
-    inOrderArray = [];
-  }
+  // console.log("!!!Starting inorder Method call again!!!");
   //  that also accept a callback as a parameter.
   //Each of these functions should traverse the tree in their respective depth-first order and
   //pass each node to the provided callback. The functions should throw an Error if no callback
   //is given as an argument, like with levelOrder.
+  if (!inOrderArray) {
+    inOrderArray = [];
+  }
 
   if (tree === null) {
-    console.log("tree be null");
+    // console.log("tree be null");
     return;
   }
 
   if (tree.left) {
-    console.log("tree.left exists");
+    // console.log("tree.left exists");
     // inOrderCallback(tree.left, inOrderArray);
     inOrderMethod(inOrderCallback, tree.left, inOrderArray);
   }
 
-  console.log("calling inorderCallback on head/mid node");
+  // console.log("calling inorderCallback on head/mid node");
   callback(tree, inOrderArray);
 
   if (tree.right) {
-    console.log("tree.right exists");
-
+    // console.log("tree.right exists");
     // inOrderCallback(tree.right, inOrderArray);
     inOrderMethod(inOrderCallback, tree.right, inOrderArray);
   }
-
   return inOrderArray;
 }
 
 function inOrderCallback(tree, inOrderArray) {
-  console.log(
-    "This is the inorder callback and the value of the node is: " + tree.data
-  );
+  // console.log(
+  //   "This is the inorder callback and the value of the node is: " + tree.data
+  // );
   inOrderArray.push(tree.data);
 }
 
 function preOrderMethod(callback, tree, preOrderArray) {
-  console.log("!!!Starting preorder Method call again!!!");
+  // console.log("!!!Starting preorder Method call again!!!");
 
   if (!preOrderArray) {
     preOrderArray = [];
   }
 
-  console.log("calling preOrderCallback on head/mid node");
+  // console.log("calling preOrderCallback on head/mid node");
   callback(tree, preOrderArray);
 
   if (tree.left) {
-    console.log("tree.left exists");
+    // console.log("tree.left exists");
     preOrderMethod(preOrderCallback, tree.left, preOrderArray);
   }
-
   if (tree.right) {
-    console.log("tree.right exists");
-
+    // console.log("tree.right exists");
     preOrderMethod(preOrderCallback, tree.right, preOrderArray);
   }
 
@@ -182,9 +177,9 @@ function preOrderMethod(callback, tree, preOrderArray) {
 }
 
 function preOrderCallback(tree, preOrderArray) {
-  console.log(
-    "This is the preOrder callback and the value of the node is: " + tree.data
-  );
+  // console.log(
+  //   "This is the preOrder callback and the value of the node is: " + tree.data
+  // );
   preOrderArray.push(tree.data);
 }
 
@@ -217,64 +212,81 @@ function postOrderCallback(tree, postOrderArray) {
   postOrderArray.push(tree.data);
   // console.log(postOrderArray);
 }
-
+// See the accompanying text file for a runthrough of how this recursive function steps through
 function heightMethod(node) {
+  if (node) {
+    console.log(node.data);
+  } else {
+    console.log("node is null, no data");
+  }
+
   if (node === null) {
     console.log("hit null");
 
     return -1;
   }
-  console.log("Calling left - node.data" + node.data);
+  console.log("Calling left - node.data: " + node.data);
   const leftHeight = heightMethod(node.left);
-  console.log("Calling right - node.data" + node.data);
+  console.log("Calling right - node.data: " + node.data);
   const rightHeight = heightMethod(node.right);
 
   console.log("leftHeight: " + leftHeight + ", rightHeight" + rightHeight);
 
   let max = Math.max(leftHeight, rightHeight);
-  console.log(max);
+  console.log("max =: " + max);
   return Math.max(leftHeight, rightHeight) + 1;
 }
 
-function heightMetho(node, counter) {
-  console.log("--height method called. Counter: " + counter);
-
-  if (!counter) {
-    counter = 0;
+function depthMethod(value, node) {
+  let depth = 0;
+  if (node.data === value) {
+    return 0;
   }
-  // if (!highestCount) {
-  //   highestCount = 0;
-  // }
+
+  if (value < node.data) {
+    depth++;
+    depth = depth + depthMethod(value, node.left);
+  } else if (value > node.data) {
+    depth++;
+
+    depth = depth + depthMethod(value, node.right);
+  }
+
+  return depth;
+}
+
+function isBalancedMethod(node) {
+  // console.log("call from method");
+
+  if (node) {
+    // console.log(node.data);
+  } else {
+    // console.log("node is null, no data");
+  }
 
   if (node === null) {
-    console.log("**NULL**");
-    --counter;
-
-    // if (counter > highestCount) {
-    //   highestCount = counter;
-    // }
-    // counter = 0;
-    console.log("counter: " + counter);
-
-    return counter;
+    // console.log("hit null");
+    return -1;
   }
-  if (node.left || node.left === null) {
-    console.log(
-      "node.left called. Node.data: " + node.data + ", counter: " + counter
-    );
-    counter++;
-    counter = heightMethod(node.left, counter);
+  // console.log("Calling left - node.data: " + node.data);
+  const leftHeight = isBalancedMethod(node.left);
+  if (leftHeight === false) {
+    return false;
+  }
+  // console.log("Calling right - node.data: " + node.data);
+  const rightHeight = isBalancedMethod(node.right);
+  if (rightHeight === false) {
+    return false;
   }
 
-  if (node.right || node.right === null) {
-    console.log(
-      "node.right called. Node.data: " + node.data + ", counter: " + counter
-    );
-    counter++;
-    counter = heightMethod(node.right, counter);
+  // console.log("leftHeight: " + leftHeight + ", rightHeight" + rightHeight);
+  if (Math.abs(leftHeight - rightHeight) > 1) {
+    // console.log("******difference**********");
+    return false;
   }
-  counter--;
-  return counter;
+  let max = Math.max(leftHeight, rightHeight);
+  // console.log("max =: " + max);
+  return Math.max(leftHeight, rightHeight) + 1;
 }
 
 export {
@@ -291,4 +303,6 @@ export {
   postOrderMethod,
   postOrderCallback,
   heightMethod,
+  depthMethod,
+  isBalancedMethod,
 };
